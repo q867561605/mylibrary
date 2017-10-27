@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.school.mapper.BookMapper">
+
+  <resultMap id="BaseResultMap" type="org.school.model.Book">
+    <id column="ISBN" jdbcType="CHAR" property="isbn" />
+    <result column="name" jdbcType="CHAR" property="name" />
+    <result column="uploader" jdbcType="CHAR" property="uploader" />
+    <result column="description" jdbcType="CHAR" property="description" />
+    <result column="uploaddate" jdbcType="VARCHAR" property="uploaddate" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ISBN, name, uploader, description, uploaddate
+  </sql>
+  
+  <select id="select" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from book
+    where ISBN = #{isbn,jdbcType=CHAR}
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.String">
+    delete from book
+    where ISBN = #{isbn,jdbcType=CHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="org.school.model.Book">
+    insert into book
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="isbn != null">
+        ISBN,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="uploader != null">
+        uploader,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="uploaddate != null">
+        uploaddate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="isbn != null">
+        #{isbn,jdbcType=CHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=CHAR},
+      </if>
+      <if test="uploader != null">
+        #{uploader,jdbcType=CHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=CHAR},
+      </if>
+      <if test="uploaddate != null">
+        #{uploaddate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="selectAll" resultType="java.util.Map">
+    select * from book
+  </select>
+  
+  <update id="update" parameterType="org.school.model.Book">
+    update book
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=CHAR},
+      </if>
+      <if test="uploader != null">
+        uploader = #{uploader,jdbcType=CHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=CHAR},
+      </if>
+      <if test="uploaddate != null">
+        uploaddate = #{uploaddate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ISBN = #{isbn,jdbcType=CHAR}
+  </update>
+  
+</mapper>

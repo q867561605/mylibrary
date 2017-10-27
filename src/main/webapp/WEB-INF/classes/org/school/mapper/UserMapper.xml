@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.school.mapper.UserMapper">
+
+  <resultMap id="BaseResultMap" type="org.school.model.User">
+    <id column="username" jdbcType="CHAR" property="username" />
+    <result column="password" jdbcType="CHAR" property="password" />
+    <result column="role" jdbcType="INTEGER" property="role" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    username, password, role
+  </sql>
+  
+  <select id="select" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where username = #{username,jdbcType=CHAR}
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.String">
+    delete from user
+    where username = #{username,jdbcType=CHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="org.school.model.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="role != null">
+        role,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        #{username,jdbcType=CHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=CHAR},
+      </if>
+      <if test="role != null">
+        #{role,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="selectAll" resultType="java.util.Map">
+    select * from user
+  </select>
+  
+  <update id="update" parameterType="org.school.model.User">
+    update user
+    <set>
+      <if test="password != null">
+        password = #{password,jdbcType=CHAR},
+      </if>
+      <if test="role != null">
+        role = #{role,jdbcType=INTEGER},
+      </if>
+    </set>
+    where username = #{username,jdbcType=CHAR}
+  </update>
+  
+</mapper>
