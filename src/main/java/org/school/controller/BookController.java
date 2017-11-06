@@ -19,10 +19,15 @@ public class BookController {
 	
 	@RequestMapping("/allBook")
 	public String allBook (HttpServletRequest request){
-		String msg = request.getParameter("role");
+		String msg = (String) request.getSession().getAttribute("tag");
 		List<Book> bookList = bookService.selectAll();
 		request.setAttribute("bookList", bookList);
-		System.out.println(msg);
+		switch(msg.hashCode()){
+		case 48:request.setAttribute("role",0);break;
+		case 49:request.setAttribute("role",1);break;
+		case 50:request.setAttribute("role",2);break;
+		case 51:request.setAttribute("role",0);request.setAttribute("msg", "new");break;
+		}
 		return "showBook";
 	}
 	

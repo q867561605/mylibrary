@@ -2,15 +2,17 @@ package org.school.controller;
 
 import java.util.List;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import org.school.model.User;
 import org.school.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+@SuppressWarnings("serial")
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends HttpServlet {
 	@Resource
 	private UserService userService;
 
@@ -34,8 +36,7 @@ public class UserController {
 			user.setRole(0);
 			userService.insert(user);
 			request.setAttribute("msg", "新用户");
-			request.setAttribute("role", user.getRole());
-			return "redirect:/book/allBook";
+			return "redirect:/book/allBook?tag=3";
 		}
 	}
 
@@ -51,8 +52,13 @@ public class UserController {
 			request.setAttribute("msg", "密码错误");
 			return "login";
 		} else {
-			request.setAttribute("role", resultUser.getRole());
-			return "redirect:/book/allBook";
+			int role = resultUser.getRole();
+			switch(role){
+			case 0:request.getSession().setAttribute("tag","0");return "redirect:/book/allBook";
+			case 1:request.getSession().setAttribute("tag","1");return "redirect:/book/allBook";
+			case 2:request.getSession().setAttribute("tag","2");return "redirect:/book/allBook";
+			}
+			return null;
 		}
 	}
 
