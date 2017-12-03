@@ -89,4 +89,7 @@
     where ISBN = #{isbn,jdbcType=CHAR}
   </update>
   
+  <select id="selectSome" parameterType="java.lang.String" resultType="java.util.Map">
+  	select * from book where name like concat(concat('%',#{name,jdbcType=CHAR}),'%')
+  </select>
 </mapper>

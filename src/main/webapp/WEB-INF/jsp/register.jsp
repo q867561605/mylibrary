@@ -18,7 +18,7 @@
 <!--  
     <link rel="stylesheet" type="text/css" href="styles.css">  
     -->
-<script>  
+<script type="text/javascript">  
         function validate(){  
             var username=valueOf(document.getElementById("username"));
             var password=valueOf(document.getElementById("password"));  

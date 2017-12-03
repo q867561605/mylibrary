@@ -4,6 +4,8 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.ibatis.annotations.Param;
 import org.school.model.User;
 import org.school.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -15,7 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserController extends HttpServlet {
 	@Resource
 	private UserService userService;
-
+	
+	
 	@RequestMapping("/GoRegister")
 	public String GoRegister(HttpServletRequest request) {
 		return "register";
@@ -67,5 +70,45 @@ public class UserController extends HttpServlet {
 		List<User> result = userService.selectAll();
 		request.setAttribute("userList", result);
 		return "ShowUser";
+	}
+	
+	@RequestMapping("/deleteUser")
+	public String deleteBook(HttpServletRequest request) {
+		String username = request.getParameter("name");
+		User user = userService.select(username);
+		if (user == null) {
+
+		} else {
+			userService.delete(username);
+		}
+		return "redirect:/user/allUser";
+	}
+	
+	@RequestMapping("/toAddUser")
+	public String toAddBook(HttpServletRequest request){
+		return "addUser";
+	}
+	
+	@RequestMapping("/addUser")
+	public String addBook(HttpServletRequest request,@Param("user")User user){
+		userService.insert(user);
+		return "redirect:/user/allUser";
+	}
+	
+	@RequestMapping("/toAlterUser")
+	public String toReviseBook(HttpServletRequest request) {
+		String username = request.getParameter("name");
+		User user = userService.select(username);
+		request.setAttribute("user", user);
+		if (user == null) {
+			
+		}
+		return "alterUser";
+	}
+	
+	@RequestMapping("/alterUser")
+	public String reviseBook(HttpServletRequest request,@Param("user")User user){
+		userService.update(user);
+		return "redirect:/user/allUser";
 	}
 }

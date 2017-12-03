@@ -15,4 +15,6 @@ public interface BookMapper {
     List<Book> selectAll();
     
     int update(Book record);
+    
+    List<Book> selectSome(String some);
 }

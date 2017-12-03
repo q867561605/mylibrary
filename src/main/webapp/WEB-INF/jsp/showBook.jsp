@@ -5,7 +5,12 @@
 <head>
 <title>图书列表</title>
 </head>
-
+<script type="text/javascript">
+	function fun(){
+		var obj1=document.getElementsByName("searchstr")[0].value;
+		document.location.href= "/library/book/findBook?search=" +obj1;
+	}
+</script>
 <body>
 	<c:if test="${msg=='new'}">
 	<script language='javascript'>
@@ -16,11 +21,11 @@
 	<a href="/library/user/allUser">用户列表</a>
 	</c:if>
 	<c:if test="${role>0}">
-	<a href="/library/book/addBook">增加图书</a>
+	<a href="/library/book/toAddBook">增加图书</a>
 	</c:if>
 	<center>
 		<input type="text" id="searchstr" name="searchstr" class="textbox" size="30">
-		<input type="button" value="查找" onclick="library/book/findBook" class="sbttn">
+		<input type="button" value="搜索" onclick="fun()">
 	</center>
 	
 	<table border="1">
@@ -41,7 +46,8 @@
 			<td align="center">${book.uploaddate}</td>
 			<td align="center">
 				<a href="/library/book/downBook">下载</a>
-				<c:if test="${role>0}"><a href="/library/book/reviseBook">修改</a></c:if>
+				<c:if test="${role>0}"><a href="/library/book/toReviseBook?ISBN=${book.ISBN}">修改</a></c:if>
+				<c:if test="${role>0}"><a href="/library/book/deleteBook?ISBN=${book.ISBN}">删除</a></c:if>
 			</td>
 		</tr>
 		</c:forEach>

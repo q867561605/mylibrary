@@ -28,7 +28,7 @@ public class BookServiceImpl implements BookService{
 
 	@Override
 	public Book select(String isbn) {
-		Book book = select(isbn);
+		Book book = bookMapper.select(isbn);
 		return book;
 	}
 
@@ -41,6 +41,12 @@ public class BookServiceImpl implements BookService{
 	@Override
 	public List<Book> selectAll() {
 		List<Book> bookList = bookMapper.selectAll();
+		return bookList;
+	}
+
+	@Override
+	public List<Book> selectSome(String some) {
+		List<Book> bookList = bookMapper.selectSome(some);
 		return bookList;
 	}
 

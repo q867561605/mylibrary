@@ -10,7 +10,7 @@ public class Book {
     private String description;
 
     private String uploaddate;
-
+    
     public String getIsbn() {
         return isbn;
     }
